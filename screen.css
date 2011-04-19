@@ -1,0 +1,35 @@
+body {
+    background: white;
+    color: black;
+}
+
+.status {
+    width: 300px;
+    float: left;
+    border-right: 1px solid black;
+    margin: 0 10px 0 10px;
+    overflow: hidden;
+}
+
+.status h2 {
+    border-bottom: 1px solid black;
+    margin: 0 0 10px 0;
+}
+
+.ticket {
+    border: 1px solid black;
+    height: 200px;
+    margin: 5px;
+}
+
+.ticket h3 {
+    
+}
+
+.ticket-link {
+    float: left;
+}
+
+.ticket-priority {
+    float: right;
+}
