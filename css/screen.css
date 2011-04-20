@@ -50,7 +50,7 @@ a {
 
 /* tickets */
 .ticket {
-    background: #ffc url(postit1.jpg) no-repeat;
+    background: #ffc url(../images/postit1.jpg) no-repeat;
     height: 120px;
     margin: 0 auto;
     width: 200px;
