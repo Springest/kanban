@@ -39,7 +39,8 @@ $(document).ready(function() {
     $.get('/api.php?f=statuses', function (data) {
         statuses = data['ticketing-status'];
         $.each(statuses, function(i, status) {
-            $('#statuses').append($('<div class="status" />').attr('id', 'status-' + status.id).append($('<h2 />').text(status.name)));
+            var status_class = (status['treat-as-closed'] == 'true') ? 'status-horizontal' : 'status-vertical';
+            $('#statuses').append($('<div class="status ' + status_class + '" />').attr('id', 'status-' + status.id).append($('<h2 style="background: '+ status['background-colour'] + ';" />').text(status.name)));
         });
         
         $.get('/api.php?f=milestones', function (data) {

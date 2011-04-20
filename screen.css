@@ -1,35 +1,56 @@
+/* Main things */
 body {
     background: white;
     color: black;
 }
 
+/* Status lanes and formatting */
 .status {
-    width: 300px;
-    float: left;
-    border-right: 1px solid black;
-    margin: 0 10px 0 10px;
+    margin: 1em;
     overflow: hidden;
 }
 
-.status h2 {
-    border-bottom: 1px solid black;
-    margin: 0 0 10px 0;
+.status-vertical {
+    border-right: 1px dashed #bbbbbb;    
+    float: left;
+    width: 300px;
 }
 
+.status-horizontal {
+    border-top: 1px dashed #bbbbbb;    
+    clear: both;
+}
+
+.status h2 {
+    color: #222222;
+    margin: 1em;
+    text-align: center;
+}
+
+/* tickets */
 .ticket {
-    border: 1px solid black;
+    background: #ffc url(postit1.jpg) no-repeat;
     height: 200px;
-    margin: 5px;
+    margin: 0 auto;
+    width: 200px;
+}
+
+.status-horizontal .ticket {
+    float: left;
 }
 
 .ticket h3 {
-    
+    margin: 0 0 0 1em;
+    padding: 0.2em 0 0 0;
+    width: 80%;
 }
 
 .ticket-link {
     float: left;
+    margin: 0 0 0 1em;
 }
 
 .ticket-priority {
     float: right;
+    margin: 0 1em 0 0;
 }
