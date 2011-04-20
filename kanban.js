@@ -26,13 +26,26 @@ function processTickets() {
             addTicket(ticket);
         }
     });
+    countTickets();
 }
 
 function addTicket(ticket) {
     var ticketId = 'ticket-' + ticket['ticket-id'];
     $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket'));
-    $('#' + ticketId).append($('<h3 />').text(ticket.summary)).append($('<div class="ticket-link" />').append($('<a href="https://eduhub.codebasehq.com/www/tickets/' + ticket['ticket-id'] + '">#' + ticket['ticket-id'] + '</a>')));
+    $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticket.summary.substr(0, 40) + ' ...')).append($('<div class="ticket-link" />').append($('<a href="https://eduhub.codebasehq.com/www/tickets/' + ticket['ticket-id'] + '" target="_blank">#' + ticket['ticket-id'] + '</a>')));
     $('#' + ticketId).append($('<div class="ticket-priority" />').text(ticket.priority));
+}
+
+function countTickets() {
+    $('#overview').html('');
+    var overviewList = $('<ul />');
+    $.each(statuses, function (i, status) {
+        var ticketCount = $('#status-' + status.id).find('.ticket').size();
+        var overviewListItem = $('<li />');
+        overviewListItem.append($('<a href="#status-' + status.id + '" />').text(status.name + '(' + ticketCount + ')'));
+        overviewList.append(overviewListItem);
+    });
+    $('#overview').append(overviewList);
 }
 
 $(document).ready(function() {

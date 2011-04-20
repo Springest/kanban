@@ -2,9 +2,29 @@
 body {
     background: white;
     color: black;
+    font: normal 100% "Times New Roman", serif;
+}
+
+a {
+    color: #6A48D7;
+    text-decoration: none;
+}
+
+/* overview */
+
+#overview {
+    width: 100%;
+    text-align: center;
+}
+
+#overview li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 20px;
 }
 
 /* Status lanes and formatting */
+
 .status {
     margin: 1em;
     overflow: hidden;
@@ -22,6 +42,7 @@ body {
 }
 
 .status h2 {
+    font-face: Helvetica, Arial, sans-serif;
     color: #222222;
     margin: 1em;
     text-align: center;
@@ -30,7 +51,7 @@ body {
 /* tickets */
 .ticket {
     background: #ffc url(postit1.jpg) no-repeat;
-    height: 200px;
+    height: 120px;
     margin: 0 auto;
     width: 200px;
 }
@@ -48,6 +69,11 @@ body {
 .ticket-link {
     float: left;
     margin: 0 0 0 1em;
+}
+
+.ticket-link a {
+    font-weight: bold;
+    text-decoration: none;
 }
 
 .ticket-priority {

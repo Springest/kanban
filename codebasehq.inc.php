@@ -5,6 +5,7 @@ class CodebaseHQAPI {
         $this->account = $account;
         $this->user_name = $user_name;
         $this->api_key = $api_key;
+        $this->cache_dir = './cache'; #no slash!
     }
     
     function base_url() {
@@ -12,16 +13,25 @@ class CodebaseHQAPI {
     }
     
     function _get_request($full_path) {
-        $process = curl_init($this->base_url() . $full_path);
-        curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', 'Accept: application/xml'));              
-        curl_setopt($process, CURLOPT_HEADER, 0);           
-        curl_setopt($process, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);                                                                
-        curl_setopt($process, CURLOPT_USERPWD, $this->account .'/'. $this->user_name . ":" . $this->api_key);                                                
-        curl_setopt($process, CURLOPT_TIMEOUT, 30);                                                                         
-        //curl_setopt($process, CURLOPT_POST, 1);                                                                             
-        //curl_setopt($process, CURLOPT_POSTFIELDS, $payloadName);                                                            
-        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);                                                                
-        $return = curl_exec($process);
+        $url = $this->base_url() . $full_path;
+        $cache_file = $this->cache_dir .'/'. sha1($url);
+        if ((time() - filemtime($cache_file)) > 300) {
+            $process = curl_init($url);
+            curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', 'Accept: application/xml'));              
+            curl_setopt($process, CURLOPT_HEADER, 0);           
+            curl_setopt($process, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);                                                                
+            curl_setopt($process, CURLOPT_USERPWD, $this->account .'/'. $this->user_name . ":" . $this->api_key);                                                
+            curl_setopt($process, CURLOPT_TIMEOUT, 30);                                                                         
+            //curl_setopt($process, CURLOPT_POST, 1);                                                                             
+            //curl_setopt($process, CURLOPT_POSTFIELDS, $payloadName);                                                            
+            curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);                                                                
+            $return = curl_exec($process);
+            $f = fopen($cache_file, 'w');
+            fwrite($f, $return);
+            fclose($f);
+        } else {
+            $return = file_get_contents($cache_file);
+        }
         return $return;
     }
     
