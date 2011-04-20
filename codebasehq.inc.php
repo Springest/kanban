@@ -15,7 +15,7 @@ class CodebaseHQAPI {
     function _get_request($full_path) {
         $url = $this->base_url() . $full_path;
         $cache_file = $this->cache_dir .'/'. sha1($url);
-        if ((time() - filemtime($cache_file)) > 300) {
+        if (!file_exists($cache_file) && ((time() - filemtime($cache_file)) > 300)) {
             $process = curl_init($url);
             curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', 'Accept: application/xml'));              
             curl_setopt($process, CURLOPT_HEADER, 0);           
