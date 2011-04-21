@@ -17,6 +17,15 @@ if ($what == 'statuses') {
     echo json_encode($statuses);
 }
 
+if ($what == 'users') {
+    $users = $cb->get_users($codebaseMainProject);
+    foreach($users->user as $user) {
+        $f = "email-address";
+        $user->hash = md5(strtolower(trim($user->$f)));
+    }
+    echo json_encode($users);
+}
+
 if ($what == 'tickets') {
     $tickets = $cb->search_tickets($codebaseMainProject, sprintf('sort:priority milestone:"%s"', $_GET['q']), $_GET['p']);
     echo json_encode($tickets);

@@ -60,6 +60,10 @@ class CodebaseHQAPI {
         return $this->_perform_request(sprintf('/%s/milestones', $project));
     }
 
+    function get_users($project) {
+        return $this->_perform_request(sprintf('/%s/assignments', $project));
+    }
+
     function search_tickets($project, $query, $page = 1) {
         $params = 'query='. urlencode($query);
         if ($page > 1) {

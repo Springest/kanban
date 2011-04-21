@@ -87,3 +87,8 @@ a {
     font-size: 80%;
     margin: 0.85em 1em 0 0;
 }
+
+img.gravatar {
+    float: left;
+    margin: 8px 4px 0 4px;
+}
