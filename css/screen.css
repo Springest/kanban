@@ -2,11 +2,11 @@
 body {
     background: white;
     color: black;
-    font: normal 100% "Times New Roman", serif;
+    font: normal 90% "Helvetica, Arial", serif;
 }
 
 a {
-    color: #6A48D7;
+    color: #589fe6;
     text-decoration: none;
 }
 
@@ -51,9 +51,10 @@ a {
 /* tickets */
 .ticket {
     background: #ffc url(../images/postit1.jpg) no-repeat;
-    height: 120px;
-    margin: 0 auto;
+    height: 80px;
+    margin: 10  auto;
     width: 200px;
+    padding: 10px 0 0 0;
 }
 
 .status-horizontal .ticket {
@@ -64,12 +65,17 @@ a {
     margin: 0 0 0 1em;
     padding: 0.2em 0 0 0;
     width: 80%;
+    font:normal 100% Arial;
 }
 
 .ticket-link {
     float: left;
-    margin: 0 0 0 1em;
+    margin: 1em 0 0 1em;
+    font: normal 80% "Courier New", serif;
+    font-weight:light;
 }
+
+/* Ticket link liever permanent in bottom left corner positionen, ik weet effe niet hoe da netjes moet :) */
 
 .ticket-link a {
     font-weight: bold;
@@ -78,5 +84,6 @@ a {
 
 .ticket-priority {
     float: right;
-    margin: 0 1em 0 0;
+    font-size: 80%;
+    margin: 0.85em 1em 0 0;
 }
