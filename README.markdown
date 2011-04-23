@@ -1,7 +1,7 @@
-Kanban
+Kanban Board for Codebase ( www.codebasehq.com ) milestones. Example: https://img.skitch.com/20110421-nyyty951c1qr7ttqj2623wujdy.png
 ======
 
-This is a small project to display your tickets in Codebase in Kanban style.
+This is a small project to display your tickets in Codebase ( www.codebasehq.com ) in Kanban style.
 
 Installation
 ------------
