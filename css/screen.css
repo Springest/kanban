@@ -71,7 +71,7 @@ a {
     float: left;
     margin: 1em 0 0 1em;
     font: normal 80% "Courier New", serif;
-    font-weight:light;
+    font-weight: normal;
 }
 
 /* Ticket link liever permanent in bottom left corner positionen, ik weet effe niet hoe da netjes moet :) */
