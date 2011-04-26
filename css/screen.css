@@ -3,11 +3,16 @@ body {
     background: white;
     color: black;
     font: normal 90% "Helvetica Neue", Arial, Helvetica, serif;
+	margin: 0;
+	padding: 0;
 }
 
 a {
     color: #589fe6;
     text-decoration: none;
+}
+a:hover {
+	text-decoration: underline;
 }
 
 /* overview */
@@ -15,49 +20,70 @@ a {
 #overview {
     width: 100%;
     text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+	background-color: #f5f5f5;
+}
+
+#overview ul {
+	margin: 0 auto;
+	overflow: hidden;
+	width: 1000px;
+	font-size: 12px;
+	padding: 0;
 }
 
 #overview li {
-    display: inline;
+    float: left;
     list-style-type: none;
-    padding-right: 20px;
+    padding: 0.5em 30px 0.5em 0;
+}
+
+#statuses {
+	clear: both;
 }
 
 /* Status lanes and formatting */
 
 .status {
-    margin: 1em;
+    margin: 0 1em 1em;
     overflow: hidden;
 }
 
 .status-vertical {
-    border-right: 1px dashed #bbbbbb;    
+    border-right: 1px solid #e5e5e5;    
     float: left;
     width: 300px;
 }
 
 .status-horizontal {
-    border-top: 1px dashed #bbbbbb;    
+    border-top: 1px solid #e5e5e5;    
     clear: both;
 }
 
 .status h2 {
-    color: #222222;
+    color: #333;
+	padding: 0.25em 0.5em;
     margin: 1em;
     text-align: center;
+	font-size: 14px;
+}
+
+.status-horizontal h2 {
+	color: #f5f5f5;
 }
 
 /* tickets */
 .ticket {
     background: #ffc url(../images/postit1.jpg) no-repeat;
     height: 80px;
-    margin: 10  auto;
+    margin: 10px auto;
     width: 200px;
     padding: 10px 0 0 0;
 }
 
 .status-horizontal .ticket {
     float: left;
+	margin-left: 2em;
 }
 
 .ticket h3 {
