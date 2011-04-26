@@ -2,7 +2,7 @@
 body {
     background: white;
     color: black;
-    font: normal 90% "Helvetica, Arial", serif;
+    font: normal 90% "Helvetica Neue", Arial, Helvetica, serif;
 }
 
 a {
@@ -42,7 +42,6 @@ a {
 }
 
 .status h2 {
-    font-face: Helvetica, Arial, sans-serif;
     color: #222222;
     margin: 1em;
     text-align: center;
