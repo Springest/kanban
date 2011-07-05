@@ -3,7 +3,7 @@
 include_once 'settings.php';
 include_once 'codebasehq.inc.php';
 
-$cb =& new CodeBaseHQAPI($codebaseAccount, $codebaseUser, $codebaseApikey);
+$cb = new CodeBaseHQAPI($codebaseAccount, $codebaseUser, $codebaseApikey);
 
 $what = $_GET['f'];
 
