@@ -17,6 +17,11 @@ if ($what == 'statuses') {
     echo json_encode($statuses);
 }
 
+if ($what == 'priorities') {
+    $priorities = $cb->get_priorities($codebaseMainProject);
+    echo json_encode($priorities);    
+}
+
 if ($what == 'users') {
     $users = $cb->get_users($codebaseMainProject);
     foreach($users->user as $user) {

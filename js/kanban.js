@@ -1,5 +1,6 @@
 var statuses;
 var milestones;
+var priorities = {};
 var users = {};
 var activeMilestones;
 var currentMilestone;
@@ -14,31 +15,36 @@ function loadTickets(pageNumber) {
         $.each(data.ticket, function(i, ticket) {
             tickets.push(ticket);
         });
-        if (data.ticket.length == 30) {
-            loadTickets(pageNumber + 1);
-        }
-        processTickets();
+        processTickets(pageNumber, data.ticket.length);
     }, 'json');
 }
 
-function processTickets() {
+function processTickets(pageNumber, totalTickets) {
+    var newTickets = 0;
+    
     $.each(tickets, function(i, ticket) {
         if ($('#ticket-' + ticket['ticket-id']).size() == 0) {
+            newTickets++;
             addTicket(ticket);
         }
     });
+    
     countTickets();
+    
+    if ((totalTickets == 30) && (newTickets > 0)) {
+        loadTickets(pageNumber + 1);
+    }
 }
 
 function addTicket(ticket) {
+    var ticketPriority = priorities[ticket['priority-id']];
     var ticketId = 'ticket-' + ticket['ticket-id'];
     var gravatarHash = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']].hash : '';
     var userName = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']]['first-name'] + ' ' + users[ticket['assignee-id']]['last-name'] : '';
 	var ticketSummary = (ticket.summary.length > 50) ? ticket.summary.substr(0, 50) + '...' : ticket.summary;
-    $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket'));	
+    $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket').attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
     $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticketSummary));
     $('#' + ticketId).append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
-    $('#' + ticketId).append($('<div class="ticket-priority" />').text(ticket.priority));
     if (gravatarHash != '') {
         $('#' + ticketId).append($('<img class="gravatar" src="http://www.gravatar.com/avatar/' + gravatarHash + '?s=32" title="' + userName + '" />'));
     }
@@ -77,7 +83,16 @@ $(document).ready(function() {
                     return (milestone.status == 'active');
                 });
                 currentMilestone = activeMilestones[0];
-                loadTickets(1);
+                
+                $.get('/api.php?f=priorities', function (data) {
+                    rawPriorities = data['ticketing-priority'];
+                    
+                    $.each(rawPriorities, function (i, priority) {
+                        priorities[priority.id] = priority;
+                    });
+                    
+                    loadTickets(1);
+                }, 'json');                
             }, 'json');            
         }, 'json');
         
