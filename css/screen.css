@@ -55,6 +55,7 @@ a:hover {
     border-right: 1px solid #e5e5e5;    
     float: left;
     width: 9.5%;
+		padding: 0 0.75%;
 	min-height: 450px;
 }
 
