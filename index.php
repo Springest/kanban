@@ -8,6 +8,9 @@
 </head>
 <body>
     <div id="overview"></div>
-    <div id="statuses"></div>
+    <div id="statuses">
+		<div id="open"></div>
+		<div id="closed"></div>
+	</div>
 </body>
 </html>
