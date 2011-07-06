@@ -46,18 +46,18 @@ function addTicket(ticket) {
 	var ageLong, ageShort;
 	if (minutesAgo > 24*60) {
 	    ageLong = Math.round(minutesAgo/24/60) + " days";
-	    ageShort = Math.round(minutesAgo/24/60) + "d";
+	    ageShort = Math.round(minutesAgo/24/60) + " days";
     } else if (minutesAgo > 60) {
-        ageLong = Math.round(minutesAgo/60) + " hrs";
-        ageShort = Math.round(minutesAgo/60) + "h";
+        ageLong = Math.round(minutesAgo/60) + " hours";
+        ageShort = Math.round(minutesAgo/60) + " hrs";
     } else {
-        ageLong = Math.round(minutesAgo) + " min";
-        ageShort = Math.round(minutesAgo) + "m";
+        ageLong = Math.round(minutesAgo) + " minutes";
+        ageShort = Math.round(minutesAgo) + " min";
     }
     
     $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket').attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
     $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticketSummary));
-    $('#' + ticketId).append($('<abbr class="age" title="updated '+ageLong+' ago">'+ageLong+'</abbr>'));
+    $('#' + ticketId).append($('<abbr class="age" title="updated '+ageLong+' ago">'+ageShort+'</abbr>'));
     $('#' + ticketId).append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
     if (gravatarHash != '') {
         $('#' + ticketId).append($('<img class="gravatar" src="http://www.gravatar.com/avatar/' + gravatarHash + '?s=32" title="' + userName + '" />'));
