@@ -90,20 +90,28 @@ a:hover {
 }
 
 .ticket h3 {
-    margin: 0;
-    padding: 1em;
+    margin: 5px;
 	font-size: 0.75em;
 }
 
 .ticket-link {
-	margin: 0;
-	padding: 2px 0 2px 1em;
+	margin: 2px 5px;
     font-family: Monaco, "Lucida Console", "Courier New", monospace;
 	font-size: 0.75em;
 	font-weight: bold;
     text-decoration: none;
 	position: absolute;
 	bottom: 0;
+	left: 0;
+}
+
+.age {
+    margin: 2px 5px;
+    font-family: Monaco, "Lucida Console", "Courier New", monospace;
+	font-size: 0.75em;
+	font-weight: bold;
+	position:absolute;
+	bottom: 1.5em;
 	left: 0;
 }
 
@@ -114,8 +122,7 @@ a:hover {
 }
 
 img.gravatar {
-	margin: 0;
-	padding: 2px;
+	margin: 5px;
 	position: absolute;
 	bottom: 0;
 	right: 0;
