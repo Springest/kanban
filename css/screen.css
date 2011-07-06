@@ -97,7 +97,7 @@ a:hover {
 .ticket-link {
 	margin: 2px 5px;
     font-family: Monaco, "Lucida Console", "Courier New", monospace;
-	font-size: 0.75em;
+	font-size: 0.625em;
 	font-weight: bold;
     text-decoration: none;
 	position: absolute;
@@ -108,8 +108,7 @@ a:hover {
 .age {
     margin: 2px 5px;
     font-family: Monaco, "Lucida Console", "Courier New", monospace;
-	font-size: 0.75em;
-	font-weight: bold;
+	font-size: 0.625em;
 	position:absolute;
 	bottom: 1.5em;
 	left: 0;

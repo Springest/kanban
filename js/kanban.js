@@ -36,28 +36,44 @@ function processTickets(pageNumber, totalTickets) {
     }
 }
 
+/* 
+ * Parse the date for browser compatibility, see
+ * http://stackoverflow.com/questions/4622732/new-date-using-javascript-in-safari
+ */
+function parseDate(input) {
+	var parts = input.match(/(\d+)/g);
+	return new Date(parts[0], parts[1]-1, parts[2], parts[3], parts[4], parts[5]);
+}
+
+function calcTimeAgo(date) {
+	// Date is returned as UTC time, so we have to add our TimezoneOffset as we live in UTC+1 (or +2 with DST)
+	var minutesAgo = (new Date().getTime() - date.getTime()) / 60000 + date.getTimezoneOffset();
+	var timeAgo = new Array();
+	if (minutesAgo > 24*60) {
+	    timeAgo['long'] = Math.round(minutesAgo/24/60) + " days";
+	    timeAgo['short'] = Math.round(minutesAgo/24/60) + "days";
+    } else if (minutesAgo > 60) {
+        timeAgo['long'] = Math.round(minutesAgo/60) + " hours";
+        timeAgo['short'] = Math.round(minutesAgo/60) + "hrs";
+    } else {
+        timeAgo['long'] = Math.round(minutesAgo) + " minutes";
+        timeAgo['short'] = Math.round(minutesAgo) + "min";
+    }
+
+	return timeAgo;
+}
+
 function addTicket(ticket) {
     var ticketPriority = priorities[ticket['priority-id']];
     var ticketId = 'ticket-' + ticket['ticket-id'];
     var gravatarHash = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']].hash : '';
     var userName = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']]['first-name'] + ' ' + users[ticket['assignee-id']]['last-name'] : '';
 	var ticketSummary = (ticket.summary.length > 50) ? ticket.summary.substr(0, 50) + '...' : ticket.summary;
-	var minutesAgo = (new Date().getTime() - new Date(ticket['updated-at']).getTime()) / 60000;
-	var ageLong, ageShort;
-	if (minutesAgo > 24*60) {
-	    ageLong = Math.round(minutesAgo/24/60) + " days";
-	    ageShort = Math.round(minutesAgo/24/60) + " days";
-    } else if (minutesAgo > 60) {
-        ageLong = Math.round(minutesAgo/60) + " hours";
-        ageShort = Math.round(minutesAgo/60) + " hrs";
-    } else {
-        ageLong = Math.round(minutesAgo) + " minutes";
-        ageShort = Math.round(minutesAgo) + " min";
-    }
-    
+	var timeAgo = calcTimeAgo(parseDate(ticket['updated-at']));
+	
     $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket').attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
     $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticketSummary));
-    $('#' + ticketId).append($('<abbr class="age" title="updated '+ageLong+' ago">'+ageShort+'</abbr>'));
+    $('#' + ticketId).append($('<abbr class="age" title="updated '+timeAgo['long']+' ago">'+timeAgo['short']+'</abbr>'));
     $('#' + ticketId).append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
     if (gravatarHash != '') {
         $('#' + ticketId).append($('<img class="gravatar" src="http://www.gravatar.com/avatar/' + gravatarHash + '?s=32" title="' + userName + '" />'));
