@@ -41,13 +41,20 @@ function processTickets(pageNumber, totalTickets) {
  * http://stackoverflow.com/questions/4622732/new-date-using-javascript-in-safari
  */
 function parseDate(input) {
-	var parts = input.match(/(\d+)/g);
-	return new Date(parts[0], parts[1]-1, parts[2], parts[3], parts[4], parts[5]);
+	var parts = input.match(/(\d+)-(\d+)-(\d+)T(\d+):(\d+):(\d+)(Z|\+|-)((\d+):(\d+))?/);
+	
+	var timezoneOffset = 0;
+	if (parts[7] == '+') {
+	    timezoneOffset = -(parseInt(parts[9], 10) * 60 + parseInt(parts[10], 10));
+    } else if (parts[7] == '-') {
+    	timezoneOffset = parseInt(parts[9], 10) * 60 + parseInt(parts[10], 10);
+    }
+	return new Date(parts[1], parts[2]-1, parts[3], parts[4], parseInt(parts[5],10)+timezoneOffset-(new Date()).getTimezoneOffset(), parts[6]);
 }
 
 function calcTimeAgo(date) {
 	// Date is returned as UTC time, so we have to add our TimezoneOffset as we live in UTC+1 (or +2 with DST)
-	var minutesAgo = (new Date().getTime() - date.getTime()) / 60000 + date.getTimezoneOffset();
+	var minutesAgo = (new Date().getTime() - date.getTime()) / 60000;
 	var timeAgo = new Array();
 	if (minutesAgo > 24*60) {
 	    timeAgo['long'] = Math.round(minutesAgo/24/60) + " days";
