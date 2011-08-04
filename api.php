@@ -7,6 +7,11 @@ $cb = new CodeBaseHQAPI($codebaseAccount, $codebaseUser, $codebaseApikey);
 
 $what = $_GET['f'];
 
+if ($what == 'categories') {
+    $categories = $cb->get_categories($codebaseMainProject);
+    echo json_encode($categories);
+}
+
 if ($what == 'milestones') {
     $milestones = $cb->get_milestones($codebaseMainProject);
     echo json_encode($milestones);

@@ -74,7 +74,7 @@ a:hover {
 
 /* tickets */
 .ticket {
-	background-color: #FBF08F;
+	background-color: #FBF08F;  
    	height: 90px;
     margin: 0.625em auto;
     width: 100%;
@@ -82,6 +82,19 @@ a:hover {
 	position: relative;
 	overflow: hidden;
 }
+
+/* start custom ticket colors */
+.ticket-default {
+}
+
+.ticket-admin {
+	background-color: pink;  
+}
+
+.ticket-other {
+  background-color: #BDB76B;
+}
+/* end custom ticket colors */
 
 #closed .status .ticket {
     float: left;

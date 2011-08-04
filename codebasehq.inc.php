@@ -12,10 +12,10 @@ class CodebaseHQAPI {
         return 'http://api3.codebasehq.com';
     }
     
-    function _get_request($full_path) {
+    function _get_request($full_path, $timeout = 300) {
         $url = $this->base_url() . $full_path;
         $cache_file = $this->cache_dir .'/'. sha1($url);
-        if (!file_exists($cache_file) || ((time() - @filemtime($cache_file)) > 300)) {
+        if (!file_exists($cache_file) || ((time() - @filemtime($cache_file)) > $timeout)) {
             $process = curl_init($url);
             curl_setopt($process, CURLOPT_HTTPHEADER, array('Content-Type: application/xml', 'Accept: application/xml'));              
             curl_setopt($process, CURLOPT_HEADER, 0);           
@@ -39,29 +39,29 @@ class CodebaseHQAPI {
         return simplexml_load_string($content);
     }
     
-    function _perform_request($full_path) {
-        $content = $this->_get_request($full_path);
+    function _perform_request($full_path, $timeout = 300) {
+        $content = $this->_get_request($full_path, $timeout);
         return $this->_parse_request($this->_get_request($full_path));
     }
     
     function get_statuses($project) {
-        return $this->_perform_request(sprintf('/%s/tickets/statuses', $project));
+        return $this->_perform_request(sprintf('/%s/tickets/statuses', $project), 86400);
     }
 
     function get_priorities($project) {
-        return $this->_perform_request(sprintf('/%s/tickets/priorities', $project));
+        return $this->_perform_request(sprintf('/%s/tickets/priorities', $project), 86400);
     }
 
     function get_categories($project) {
-        return $this->_perform_request(sprintf('/%s/tickets/categories', $project));
+        return $this->_perform_request(sprintf('/%s/tickets/categories', $project), 86400);
     }
 
     function get_milestones($project) {
-        return $this->_perform_request(sprintf('/%s/milestones', $project));
+        return $this->_perform_request(sprintf('/%s/milestones', $project), 86400);
     }
 
     function get_users($project) {
-        return $this->_perform_request(sprintf('/%s/assignments', $project));
+        return $this->_perform_request(sprintf('/%s/assignments', $project), 86400);
     }
 
     function search_tickets($project, $query, $page = 1) {

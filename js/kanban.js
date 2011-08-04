@@ -1,5 +1,6 @@
 var statuses;
 var milestones;
+var categories = {};
 var priorities = {};
 var users = {};
 var activeMilestones;
@@ -71,6 +72,8 @@ function calcTimeAgo(date) {
 }
 
 function addTicket(ticket) {
+    var ticketTypeClass = 'ticket-default';
+    var ticketCategory = categories[ticket['category-id']];
     var ticketPriority = priorities[ticket['priority-id']];
     var ticketId = 'ticket-' + ticket['ticket-id'];
     var gravatarHash = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']].hash : '';
@@ -78,7 +81,14 @@ function addTicket(ticket) {
 	var ticketSummary = (ticket.summary.length > 50) ? ticket.summary.substr(0, 50) + '...' : ticket.summary;
 	var timeAgo = calcTimeAgo(parseDate(ticket['updated-at']));
 	
-    $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket').attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
+	// change color for other repo's
+	matches = ticketCategory.match(/^\s*(\w+)\s*[\-|\/]/);
+	console.dir(matches);
+	if (matches) {
+	    ticketTypeClass = 'ticket-' + matches[1].toLowerCase();
+	}
+	
+    $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket ' + ticketTypeClass).attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
     $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticketSummary));
     $('#' + ticketId).append($('<abbr class="age" title="updated '+timeAgo['long']+' ago">'+timeAgo['short']+'</abbr>'));
     $('#' + ticketId).append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
@@ -128,7 +138,15 @@ $(document).ready(function() {
                         priorities[priority.id] = priority;
                     });
                     
-                    loadTickets(1);
+                    $.get('/api.php?f=categories', function (data) {
+                        rawCategories = data['ticketing-category'];
+                        
+                        $.each(rawCategories, function (i, category) {
+                            categories[category.id] = category.name;
+                        });
+                        
+                        loadTickets(1);
+                    }, 'json');
                 }, 'json');                
             }, 'json');            
         }, 'json');
