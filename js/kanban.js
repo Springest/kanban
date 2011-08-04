@@ -83,7 +83,6 @@ function addTicket(ticket) {
 	
 	// change color for other repo's
 	matches = ticketCategory.match(/^\s*(\w+)\s*[\-|\/]/);
-	console.dir(matches);
 	if (matches) {
 	    ticketTypeClass = 'ticket-' + matches[1].toLowerCase();
 	}
