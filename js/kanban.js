@@ -7,8 +7,8 @@ var activeMilestones;
 var currentMilestone;
 var tickets = [];
 
-function loadTickets(pageNumber) {
-    var ticketUrl = '/api.php?f=tickets&q=' + escape(currentMilestone.name);
+function loadTickets(pageNumber, ticketStatus) {
+    var ticketUrl = '/api.php?f=tickets&s=' + ticketStatus + '&q=' + escape(currentMilestone.name);
     if (pageNumber > 1) {
         ticketUrl = ticketUrl + '&p=' + pageNumber;
     }
@@ -16,11 +16,11 @@ function loadTickets(pageNumber) {
         $.each(data.ticket, function(i, ticket) {
             tickets.push(ticket);
         });
-        processTickets(pageNumber, data.ticket.length);
+        processTickets(pageNumber, ticketStatus, data.ticket.length);
     }, 'json');
 }
 
-function processTickets(pageNumber, totalTickets) {
+function processTickets(pageNumber, ticketStatus, totalTickets) {
     var newTickets = 0;
     
     $.each(tickets, function(i, ticket) {
@@ -33,7 +33,9 @@ function processTickets(pageNumber, totalTickets) {
     countTickets();
     
     if ((totalTickets == 30) && (newTickets > 0)) {
-        loadTickets(pageNumber + 1);
+        loadTickets(pageNumber + 1, ticketStatus);
+    } else if (ticketStatus == 'open') {
+        loadTickets(1, 'closed');
     }
 }
 
@@ -144,7 +146,7 @@ $(document).ready(function() {
                             categories[category.id] = category.name;
                         });
                         
-                        loadTickets(1);
+                        loadTickets(1, 'open');
                     }, 'json');
                 }, 'json');                
             }, 'json');            

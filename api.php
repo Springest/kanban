@@ -37,6 +37,7 @@ if ($what == 'users') {
 }
 
 if ($what == 'tickets') {
-    $tickets = $cb->search_tickets($codebaseMainProject, sprintf('sort:priority milestone:"%s"', $_GET['q']), $_GET['p']);
+    $status = isset($_GET['s']) ? $_GET['s'] : 'open';
+    $tickets = $cb->search_tickets($codebaseMainProject, sprintf('sort:priority status:%s milestone:"%s"', $status, $_GET['q']), $_GET['p']);
     echo json_encode($tickets);
 }
