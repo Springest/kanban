@@ -6,7 +6,7 @@ var users = {};
 var activeMilestones;
 var currentMilestone;
 var tickets = [];
-var loaded = {};
+var ciBranches = {};
 
 function loadTickets(pageNumber, ticketStatus) {
     var ticketUrl = '/api.php?f=tickets&s=' + ticketStatus + '&q=' + escape(currentMilestone.name);
@@ -110,44 +110,63 @@ function countTickets() {
 }
 
 $(document).ready(function() {
-    loaded.statuses = $.get('/api.php?f=statuses', function (data) {
+    apiPromises = [];
+    apiPromises.push($.get('/api.php?f=statuses', function (data) {
         statuses = data['ticketing-status'];
         $.each(statuses, function(i, status) {
 			var statusBox = $('<div class="status" />').attr('id', 'status-' + status.id).append($('<h2 />').attr('style', 'background-color: ' + status['colour'] ).text(status.name));
 			var target = (status['treat-as-closed'] == 'true') ? '#closed' : '#open';
 			$(target).append(statusBox);
         });
-    }, 'json');
+    }, 'json'));
     
-    loaded.users = $.get('/api.php?f=users', function (data) {
+    apiPromises.push($.get('/api.php?f=users', function (data) {
         $.each(data.user, function (i, user) {
             users[user.id] = user;
         });
-    }, 'json');
+    }, 'json'));
     
-    loaded.milestones = $.get('/api.php?f=milestones', function (data) {
+    apiPromises.push($.get('/api.php?f=milestones', function (data) {
         milestones = data['ticketing-milestone'];
         activeMilestones = $.grep(milestones, function(milestone, i) {
             return (milestone.status == 'active');
         });
         currentMilestone = activeMilestones[0];
-    }, 'json');
+    }, 'json'));
     
-    loaded.priorities = $.get('/api.php?f=priorities', function (data) {
+    apiPromises.push($.get('/api.php?f=priorities', function (data) {
         rawPriorities = data['ticketing-priority'];
         $.each(rawPriorities, function (i, priority) {
             priorities[priority.id] = priority;
         });
-    }, 'json');
+    }, 'json'));
     
-    loaded.categories = $.get('/api.php?f=categories', function (data) {
+    apiPromises.push($.get('/api.php?f=categories', function (data) {
         rawCategories = data['ticketing-category'];
         $.each(rawCategories, function (i, category) {
             categories[category.id] = category.name;
         });
-    }, 'json');
+    }, 'json'));
+    
+    if (settings.ciUrl) {
+        var ciPromise = $.Deferred()
+        apiPromises.push(ciPromise);
+        $.get(settings.ciUrl+'/api.php?/projects', function(projects) {
+            var ciPromises = $.map(projects, function (project) {
+                return $.get(settings.ciUrl+'/api.php?/projects/'+project.name, function(fullProject) {
+                    $.each(fullProject.branches, function(branchName, branch) {
+                        var ticketId = (/^[0-9]+/.exec(branchName) || [null])[0];
+                        if (!ticketId) return;
+                        ciBranches[ticketId] = ciBranches[ticketId] || {};
+                        ciBranches[ticketId][project.name] = branch;
+                    });
+                });
+            });
+            $.when.apply($, ciPromises).done(function() { ciPromise.resolve(); });
+        }, 'json');
+    }
 
-    $.when(loaded.statuses, loaded.users, loaded.milestones, loaded.priorities, loaded.categories)
+    $.when.apply($, apiPromises)
         .done(function(){ loadTickets(1, 'open'); })
         .done(function(){ loadTickets(1, 'closed'); });
 });
