@@ -170,19 +170,26 @@ $(document).ready(function() {
     if (settings.ciUrl) {
         var ciPromise = $.Deferred()
         apiPromises.push(ciPromise);
-        $.get(settings.ciUrl+'/api.php?/projects', function(projects) {
-            var ciPromises = $.map(projects, function (project) {
-                return $.get(settings.ciUrl+'/api.php?/projects/'+project.name, function(fullProject) {
-                    $.each(fullProject.branches, function(branchName, branch) {
-                        var ticketId = (/^[0-9]+/.exec(branchName) || [null])[0];
-                        if (!ticketId) return;
-                        ciBranches[ticketId] = ciBranches[ticketId] || {};
-                        ciBranches[ticketId][project.name] = branch;
+        $.ajax({
+            url: settings.ciUrl+'/api.php?/projects',
+            dataType: 'json',
+            error: function() {
+                ciPromise.resolve();
+            },
+            success: function(projects) {
+                var ciPromises = $.map(projects, function (project) {
+                    return $.get(settings.ciUrl+'/api.php?/projects/'+project.name, function(fullProject) {
+                        $.each(fullProject.branches, function(branchName, branch) {
+                            var ticketId = (/^[0-9]+/.exec(branchName) || [null])[0];
+                            if (!ticketId) return;
+                            ciBranches[ticketId] = ciBranches[ticketId] || {};
+                            ciBranches[ticketId][project.name] = branch;
+                        });
                     });
                 });
-            });
-            $.when.apply($, ciPromises).done(function() { ciPromise.resolve(); });
-        }, 'json');
+                $.when.apply($, ciPromises).done(function() { ciPromise.resolve(); });
+            }
+        });
     }
 
     $.when.apply($, apiPromises)
