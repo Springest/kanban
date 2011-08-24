@@ -81,6 +81,15 @@ function addTicket(ticket) {
     var userName = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']]['first-name'] + ' ' + users[ticket['assignee-id']]['last-name'] : '';
 	var ticketSummary = (ticket.summary.length > 50) ? ticket.summary.substr(0, 50) + '...' : ticket.summary;
 	var timeAgo = calcTimeAgo(parseDate(ticket['updated-at']));
+    var ticketBranches = ciBranches[ticket['ticket-id']];
+    var ciStatus = 'unknown';
+    $.each(ticketBranches || {}, function(projectName, branch) {
+        if (branch.cake_testsuite_failures == 0 && ciStatus == 'unknown') {
+            ciStatus = 'ok';
+        } else if (branch.cake_testsuite_failures > 0) {
+            ciStatus = 'fail';
+        }
+    });
 	
 	// change color for other repo's
 	matches = ticketCategory.match(/^\s*(\w+)\s*[\-|\/]/);
@@ -94,7 +103,8 @@ function addTicket(ticket) {
     }
     bodyDiv
         .append($('<abbr class="age" title="updated '+timeAgo['long']+' ago">'+timeAgo['short']+'</abbr>'))
-        .append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
+        .append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']))
+        .append($('<span />').addClass('ci-status').addClass(ciStatus).text(ciStatus == 'unknown' ? 'untested' : ciStatus));
 	
 	var div = $('<div />')
 	    .attr('id', ticketId)

@@ -109,23 +109,27 @@ a:hover {
 
 .ticket-body {
     position: relative;
+    font-family: Monaco, "Lucida Console", "Courier New", monospace;
+	font-size: 0.625em;
+	margin: 5px;
 }
 
 .ticket-link {
-	margin: 2px 5px;
-    font-family: Monaco, "Lucida Console", "Courier New", monospace;
-	font-size: 0.625em;
 	font-weight: bold;
     text-decoration: none;
 	display: block;
 }
 
 .age {
-    margin: 2px 5px;
-    font-family: Monaco, "Lucida Console", "Courier New", monospace;
-	font-size: 0.625em;
 	display: block;
 }
+
+.ci-status {
+    display: block;
+}
+.ci-status.ok { color: #060; font-weight: bold; }
+.ci-status.fail { color: white; background-color: red; font-weight: bold; text-transform: uppercase; padding: 0 1em; width: 3em;}
+.ci-status.unknown { color: #666; }
 
 .ticket-priority {
     float: right;
@@ -134,6 +138,5 @@ a:hover {
 }
 
 img.gravatar {
-	margin: 5px;
 	float: right;
 }
