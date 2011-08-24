@@ -75,7 +75,6 @@ a:hover {
 /* tickets */
 .ticket {
 	background-color: #FBF08F;  
-   	height: 90px;
     margin: 0.625em auto;
     width: 100%;
     padding: 0em;
@@ -105,6 +104,11 @@ a:hover {
 .ticket h3 {
     margin: 5px;
 	font-size: 0.75em;
+	min-height: 3.75em;
+}
+
+.ticket-body {
+    position: relative;
 }
 
 .ticket-link {
@@ -113,18 +117,14 @@ a:hover {
 	font-size: 0.625em;
 	font-weight: bold;
     text-decoration: none;
-	position: absolute;
-	bottom: 0;
-	left: 0;
+	display: block;
 }
 
 .age {
     margin: 2px 5px;
     font-family: Monaco, "Lucida Console", "Courier New", monospace;
 	font-size: 0.625em;
-	position:absolute;
-	bottom: 1.5em;
-	left: 0;
+	display: block;
 }
 
 .ticket-priority {
@@ -135,7 +135,5 @@ a:hover {
 
 img.gravatar {
 	margin: 5px;
-	position: absolute;
-	bottom: 0;
-	right: 0;
+	float: right;
 }

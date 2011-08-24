@@ -88,13 +88,22 @@ function addTicket(ticket) {
 	    ticketTypeClass = 'ticket-' + matches[1].toLowerCase();
 	}
 	
-    $('#status-' + ticket['status-id']).append($('<div />').attr('id', ticketId).attr('class', 'ticket ' + ticketTypeClass).attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';'));	
-    $('#' + ticketId).append($('<h3 />').attr('title', ticket.summary).text(ticketSummary));
-    $('#' + ticketId).append($('<abbr class="age" title="updated '+timeAgo['long']+' ago">'+timeAgo['short']+'</abbr>'));
-    $('#' + ticketId).append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
+	var bodyDiv = $('<div />').attr('class', 'ticket-body');
     if (gravatarHash != '') {
-        $('#' + ticketId).append($('<img class="gravatar" src="http://www.gravatar.com/avatar/' + gravatarHash + '?s=32" title="' + userName + '" />'));
+        bodyDiv.append($('<img class="gravatar" src="http://www.gravatar.com/avatar/' + gravatarHash + '?s=32" title="' + userName + '" />'));
     }
+    bodyDiv
+        .append($('<abbr class="age" title="updated '+timeAgo['long']+' ago">'+timeAgo['short']+'</abbr>'))
+        .append($('<a href="https://eduhub.codebasehq.com/projects/www/tickets/' + ticket['ticket-id'] + '" target="_blank" />').attr('class', 'ticket-link').text('#' + ticket['ticket-id']));
+	
+	var div = $('<div />')
+	    .attr('id', ticketId)
+	    .attr('class', 'ticket ' + ticketTypeClass)
+	    .attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';')
+	    .append($('<h3 />').attr('title', ticket.summary).text(ticketSummary))
+	    .append(bodyDiv);
+	    
+    $('#status-' + ticket['status-id']).append(div);
 }
 
 function countTickets() {
