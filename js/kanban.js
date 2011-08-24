@@ -6,6 +6,7 @@ var users = {};
 var activeMilestones;
 var currentMilestone;
 var tickets = [];
+var loaded = {};
 
 function loadTickets(pageNumber, ticketStatus) {
     var ticketUrl = '/api.php?f=tickets&s=' + ticketStatus + '&q=' + escape(currentMilestone.name);
@@ -34,8 +35,6 @@ function processTickets(pageNumber, ticketStatus, totalTickets) {
     
     if ((totalTickets == 30) && (newTickets > 0)) {
         loadTickets(pageNumber + 1, ticketStatus);
-    } else if (ticketStatus == 'open') {
-        loadTickets(1, 'closed');
     }
 }
 
@@ -111,46 +110,44 @@ function countTickets() {
 }
 
 $(document).ready(function() {
-    $.get('/api.php?f=statuses', function (data) {
+    loaded.statuses = $.get('/api.php?f=statuses', function (data) {
         statuses = data['ticketing-status'];
-
         $.each(statuses, function(i, status) {
 			var statusBox = $('<div class="status" />').attr('id', 'status-' + status.id).append($('<h2 />').attr('style', 'background-color: ' + status['colour'] ).text(status.name));
 			var target = (status['treat-as-closed'] == 'true') ? '#closed' : '#open';
 			$(target).append(statusBox);
         });
-        
-        $.get('/api.php?f=users', function (data) {
-            $.each(data.user, function (i, user) {
-                users[user.id] = user;
-            });
-            
-            $.get('/api.php?f=milestones', function (data) {
-                milestones = data['ticketing-milestone'];
-                activeMilestones = $.grep(milestones, function(milestone, i) {
-                    return (milestone.status == 'active');
-                });
-                currentMilestone = activeMilestones[0];
-                
-                $.get('/api.php?f=priorities', function (data) {
-                    rawPriorities = data['ticketing-priority'];
-                    
-                    $.each(rawPriorities, function (i, priority) {
-                        priorities[priority.id] = priority;
-                    });
-                    
-                    $.get('/api.php?f=categories', function (data) {
-                        rawCategories = data['ticketing-category'];
-                        
-                        $.each(rawCategories, function (i, category) {
-                            categories[category.id] = category.name;
-                        });
-                        
-                        loadTickets(1, 'open');
-                    }, 'json');
-                }, 'json');                
-            }, 'json');            
-        }, 'json');
-        
-    }, 'json');    
+    }, 'json');
+    
+    loaded.users = $.get('/api.php?f=users', function (data) {
+        $.each(data.user, function (i, user) {
+            users[user.id] = user;
+        });
+    }, 'json');
+    
+    loaded.milestones = $.get('/api.php?f=milestones', function (data) {
+        milestones = data['ticketing-milestone'];
+        activeMilestones = $.grep(milestones, function(milestone, i) {
+            return (milestone.status == 'active');
+        });
+        currentMilestone = activeMilestones[0];
+    }, 'json');
+    
+    loaded.priorities = $.get('/api.php?f=priorities', function (data) {
+        rawPriorities = data['ticketing-priority'];
+        $.each(rawPriorities, function (i, priority) {
+            priorities[priority.id] = priority;
+        });
+    }, 'json');
+    
+    loaded.categories = $.get('/api.php?f=categories', function (data) {
+        rawCategories = data['ticketing-category'];
+        $.each(rawCategories, function (i, category) {
+            categories[category.id] = category.name;
+        });
+    }, 'json');
+
+    $.when(loaded.statuses, loaded.users, loaded.milestones, loaded.priorities, loaded.categories)
+        .done(function(){ loadTickets(1, 'open'); })
+        .done(function(){ loadTickets(1, 'closed'); });
 });
