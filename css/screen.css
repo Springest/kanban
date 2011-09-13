@@ -3,12 +3,12 @@ body {
     background: white;
     color: black;
     font: normal 90% "Helvetica Neue", Arial, Helvetica, serif;
-	margin: 0;
+	margin: 0 0 100px;
 	padding: 0;
 }
 
 a {
-    color: #589fe6;
+    color: #217FDE;
     text-decoration: none;
 }
 a:hover {
@@ -47,20 +47,23 @@ a:hover {
 /* Status lanes and formatting */
 
 .status {
-    padding: 0 1em 1em;
     overflow: hidden;
 }
 
+#open {
+    padding-left: 0.5%;
+}
+
 #open .status {
-    border-right: 1px solid #e5e5e5;    
     float: left;
-    width: 9.5%;
-		padding: 0 0.75%;
+    width: 10%;
+	padding: 0 0.5%;
 	min-height: 450px;
 }
 
 #closed .status {
     clear: both;
+    padding: 0 0.5%;
 }
 
 .status h2 {
@@ -97,8 +100,8 @@ a:hover {
 
 #closed .status .ticket {
     float: left;
-	margin-right: 1em;
-	width: 9.5%;
+	margin: 0 0.5%;
+	width: 10%;
 }
 
 .ticket h3 {

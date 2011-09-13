@@ -126,7 +126,7 @@ function addTicket(ticket) {
             show: { delay: 0 },
             hide: { fixed: true },
             position: { corner: { target: 'bottomLeft', tooltip: 'topLeft' } },
-            style: {  }
+            style: { border: { width: 1, color: (ciStatus == 'fail' ? '#900' : (ciStatus == 'ok' ? '#060' : '#666')) } }
         });
 	}
 	    
