@@ -81,9 +81,9 @@ function addTicket(ticket) {
     var userName = (users[ticket['assignee-id']] !== undefined) ? users[ticket['assignee-id']]['first-name'] + ' ' + users[ticket['assignee-id']]['last-name'] : '';
 	var ticketSummary = (ticket.summary.length > 50) ? ticket.summary.substr(0, 50) + '...' : ticket.summary;
 	var timeAgo = calcTimeAgo(parseDate(ticket['updated-at']));
-    var ticketBranches = ciBranches[ticket['ticket-id']];
+    var ticketBranches = ciBranches[ticket['ticket-id']] || {};
     var ciStatus = 'unknown';
-    $.each(ticketBranches || {}, function(projectName, branch) {
+    $.each(ticketBranches, function(projectName, branch) {
         if (branch.cake_testsuite_failures == 0 && ciStatus == 'unknown') {
             ciStatus = 'ok';
         } else if (branch.cake_testsuite_failures > 0) {
