@@ -3,6 +3,7 @@
 <head>
     <title>Kanban</title>
     <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.qtip.min.js" type="text/javascript"></script>
     <script src="js/kanban.js"></script>
     <link rel="stylesheet" type="text/css" href="css/screen.css" />
     <script type="text/javascript" charset="utf-8">

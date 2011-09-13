@@ -112,6 +112,23 @@ function addTicket(ticket) {
 	    .attr('style', 'border-top: 2px solid ' + ticketPriority.colour + ';')
 	    .append($('<h3 />').attr('title', ticket.summary).text(ticketSummary))
 	    .append(bodyDiv);
+	
+    var tipItems = "";
+    $.each(ticketBranches, function(projectName, branch) {
+        $.each(branch.urls.logs, function(i, url) {
+            var urlparts = url.match(/([a-f0-9]{7})[a-f0-9]{30}([a-f0-9]{3}.*$)/);
+            tipItems += '<li><a href="'+settings.ciUrl+url+'">'+urlparts[1]+'...'+urlparts[2]+'</a></li>';
+        });
+    });
+	if (tipItems) {
+	    $('.ci-status', bodyDiv).qtip({
+	        content: { text: '<ul>'+tipItems+'</ul>' },
+            show: { delay: 0 },
+            hide: { fixed: true },
+            position: { corner: { target: 'bottomLeft', tooltip: 'topLeft' } },
+            style: {  }
+        });
+	}
 	    
     $('#status-' + ticket['status-id']).append(div);
 }

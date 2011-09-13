@@ -140,3 +140,8 @@ a:hover {
 img.gravatar {
 	float: right;
 }
+
+.qtip-content ul {
+    margin: 0;
+    padding: 0;
+}
