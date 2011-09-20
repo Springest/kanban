@@ -115,7 +115,7 @@ function addTicket(ticket) {
 	
     var tipItems = "";
     $.each(ticketBranches, function(projectName, branch) {
-        $.each(branch.urls.logs, function(i, url) {
+        $.each(branch.urls.logs || [], function(i, url) {
             var urlparts = url.match(/([a-f0-9]{7})[a-f0-9]{30}([a-f0-9]{3}.*$)/);
             tipItems += '<li><a href="'+settings.ciUrl+url+'">'+urlparts[1]+'...'+urlparts[2]+'</a></li>';
         });
