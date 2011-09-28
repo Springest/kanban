@@ -167,7 +167,7 @@ $(document).ready(function() {
         activeMilestones = $.grep(milestones, function(milestone, i) {
             return (milestone.status == 'active');
         });
-        currentMilestone = activeMilestones[0];
+        currentMilestone = activeMilestones[1];
     }, 'json'));
     
     apiPromises.push($.get('/api.php?f=priorities', function (data) {
