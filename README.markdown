@@ -24,15 +24,8 @@ You can control the columns through Codebase. For every possible status a column
 
 Currently, the kanban board will use the first active milestone it can find.
 
-
-Todo's
-------
-
-* Show more ticket information on mouse over
-* Select (active) milestone
-* ...
-
 Contact
 -------
 
-If you want to know more, have questions etc. please contact us at developers@eduhub.nl.
+If you want to know more, have questions etc. please contact us at developers@springest.nl
+Please note that we don't actively maintain this tool anymore, as we've switched to GitHub and are now a new Kanban board which is not open-sourced yet.
