@@ -1,7 +1,8 @@
-Kanban Board for Codebase ( www.codebasehq.com ) milestones. Example: https://img.skitch.com/20110421-nyyty951c1qr7ttqj2623wujdy.png
+Kanban Board for Codebase. 
 ======
 
 This is a small project to display your tickets in Codebase ( www.codebasehq.com ) in Kanban style.
+![Screenshot](https://img.skitch.com/20110421-nyyty951c1qr7ttqj2623wujdy.png)
 
 Installation
 ------------
@@ -28,4 +29,8 @@ Contact
 -------
 
 If you want to know more, have questions etc. please contact us at developers@springest.nl
-Please note that we don't actively maintain this tool anymore, as we've switched to GitHub and are now a new Kanban board which is not open-sourced yet.
+
+Project Status
+-------
+Please note that we don't actively maintain this tool anymore, as we've switched to GitHub and are now using a new Kanban board which is not open-sourced yet.
+Feel free to fork this project and build upon it.
