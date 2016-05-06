@@ -1,4 +1,11 @@
-Kanban Board for Codebase. 
+This project is **no longer maintained**.
+
+If you're interested in taking it over, we'd love to hear from you.
+Email [developers@springest.com](mailto:developers@springest.com) or check out one of its maintained forks.
+
+*****
+
+Kanban Board for Codebase.
 ======
 
 This is a small project to display your tickets in Codebase ( www.codebasehq.com ) in Kanban style.
